@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: producer
+
+server:
+  port: 7000
+
+  rabbitmq:
+    addresses: localhost:5672
+
+rabbitmq:
+  exchanges:
+    topic-exchange: internal.topic.exchange
+  queues:
+    queue: consumer.queue
+  routing-keys:
+    key: consumer.routing-key
