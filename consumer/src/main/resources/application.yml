@@ -1,0 +1,25 @@
+server:
+  port: 7001
+
+spring:
+  application:
+    name: consumer
+  datasource:
+    url: jdbc:postgresql://localhost:5432/rabbitMQPracticeDB
+    driver-class-name: org.postgresql.Driver
+    username: 'postgres'
+    password: 'root'
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: 'true'
+    hibernate:
+      ddl-auto: update
+
+rabbitmq:
+  addresses: localhost:5672
+  exchanges:
+    topic-exchange: internal.topic.exchange
+  queues:
+    queue: consumer.queue
+  routing-keys:
+    key: consumer.routing-key
