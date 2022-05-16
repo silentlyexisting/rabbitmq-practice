@@ -5,10 +5,8 @@ spring:
 server:
   port: 7000
 
-  rabbitmq:
-    addresses: localhost:5672
-
 rabbitmq:
+  addresses: localhost:5672
   exchanges:
     topic-exchange: internal.topic.exchange
   queues:

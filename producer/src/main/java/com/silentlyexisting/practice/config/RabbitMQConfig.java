@@ -17,9 +17,9 @@ import org.springframework.context.annotation.Configuration;
 @AllArgsConstructor
 public class RabbitMQConfig {
 
-    private final ConnectionFactory connectionFactory;
-
     // configured rabbit template that allows us to send messages to topic exchange
+
+    private final ConnectionFactory connectionFactory;
 
     @Bean
     public AmqpTemplate amqpTemplate() {
@@ -38,7 +38,6 @@ public class RabbitMQConfig {
 
     @Bean
     public MessageConverter messageConverter() {
-        MessageConverter jackson2JsonMessageConverter = new Jackson2JsonMessageConverter();
-        return jackson2JsonMessageConverter;
+        return new Jackson2JsonMessageConverter();
     }
 }
