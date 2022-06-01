@@ -1,12 +1,17 @@
-spring:
-  application:
-    name: producer
-
 server:
   port: 7000
 
+spring:
+  application:
+    name: producer
+  rabbitmq:
+    listener:
+      simple:
+        missing-queues-fatal: false
+    host: ${SPRING_RABBITMQ_HOST}   # localhost
+    port: 5672
+
 rabbitmq:
-  addresses: localhost:5672
   exchanges:
     topic-exchange: internal.topic.exchange
   queues:

@@ -5,7 +5,7 @@ spring:
   application:
     name: consumer
   datasource:
-    url: jdbc:postgresql://localhost:5432/rabbitMQPracticeDB
+    url: ${JDBC_DATASOURCE_URL} # jdbc:postgresql://localhost:5432/rabbitMQPracticeDB
     driver-class-name: org.postgresql.Driver
     username: 'postgres'
     password: 'root'
@@ -14,9 +14,19 @@ spring:
     show-sql: 'true'
     hibernate:
       ddl-auto: update
+  rabbitmq:
+    listener:
+      simple:
+        missing-queues-fatal: false
+    host: ${SPRING_RABBITMQ_HOST} # localhost
+    port: 5672
+
+resolute:
+  rabbitmq:
+    publishQueueName: resolute-run-request
+    exchange: resolute
 
 rabbitmq:
-  addresses: localhost:5672
   exchanges:
     topic-exchange: internal.topic.exchange
   queues:

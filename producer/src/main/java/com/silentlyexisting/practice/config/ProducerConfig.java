@@ -31,7 +31,7 @@ public class ProducerConfig {
 
     @Bean
     public Queue queue() {
-        return new Queue(this.queueValue, false);
+        return new Queue(this.queueValue);
     }
 
     @Bean
@@ -42,4 +42,3 @@ public class ProducerConfig {
                 .with(this.routingKeyValue);
     }
 }
-

@@ -1,12 +1,67 @@
 version: "3.9"
 
 services:
+  postgres:
+    image: postgres:14.2-alpine
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - app-tier
+    expose:
+      - 5432
+    volumes:
+      - ./pg_data:/var/lib/postgresql/data/pgdata
+    environment:
+      POSTGRES_PASSWORD: root
+      POSTGRES_USER: postgres
+      POSTGRES_DB: rabbitMQPracticeDB
+      PGDATA: /var/lib/postgresql/data/pgdata
+    restart: always
+
   rabbitmq:
-    image: rabbitmq:3.10-management-alpine
+    image: rabbitmq:3.10.2-management-alpine
     container_name: rabbitmq
+    hostname: rabbitmq
     ports:
       - "5672:5672"
       - "15672:15672"
     expose:
       - 5672
       - 15672
+    networks:
+      - app-tier
+
+  producer:
+    build: ./producer
+    container_name: producer
+    ports:
+      - "7000:7000"
+    expose:
+      - 7000
+    environment:
+      - SPRING_RABBITMQ_HOST=rabbitmq
+    networks:
+      - app-tier
+    depends_on:
+      - rabbitmq
+
+  consumer:
+    build: ./consumer
+    container_name: consumer
+    ports:
+      - "7001:7001"
+    expose:
+      - 7001
+    environment:
+      - JDBC_DATASOURCE_URL=jdbc:postgresql://postgres:5432/rabbitMQPracticeDB
+      - SPRING_RABBITMQ_HOST=rabbitmq
+    networks:
+      - app-tier
+    depends_on:
+      - postgres
+      - rabbitmq
+
+networks:
+  app-tier:
+    driver: bridge
